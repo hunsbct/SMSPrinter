@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.txtContact = new MetroFramework.Controls.MetroTextBox();
             this.btnStart = new MetroFramework.Controls.MetroButton();
@@ -40,7 +40,6 @@
             this.timestamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sentreceived = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.message = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnView = new MetroFramework.Controls.MetroButton();
             this.cbFileFormat = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
@@ -52,6 +51,8 @@
             this.dtTo = new MetroFramework.Controls.MetroDateTime();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.btnPrintFiltered = new MetroFramework.Controls.MetroButton();
+            this.cbColorPicker = new MetroFramework.Controls.MetroComboBox();
+            this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.gvMessages)).BeginInit();
             this.SuspendLayout();
             // 
@@ -102,7 +103,7 @@
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStart.Enabled = false;
-            this.btnStart.Location = new System.Drawing.Point(1058, 706);
+            this.btnStart.Location = new System.Drawing.Point(1058, 92);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(173, 24);
             this.btnStart.Style = MetroFramework.MetroColorStyle.Silver;
@@ -120,32 +121,33 @@
             this.gvMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gvMessages.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.gvMessages.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.gvMessages.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gvMessages.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gvMessages.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.gvMessages.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gvMessages.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gvMessages.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gvMessages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvMessages.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sender,
             this.timestamp,
             this.sentreceived,
             this.message});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gvMessages.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gvMessages.DefaultCellStyle = dataGridViewCellStyle2;
             this.gvMessages.EnableHeadersVisualStyles = false;
             this.gvMessages.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.gvMessages.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -153,19 +155,19 @@
             this.gvMessages.Name = "gvMessages";
             this.gvMessages.ReadOnly = true;
             this.gvMessages.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gvMessages.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gvMessages.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gvMessages.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gvMessages.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gvMessages.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.gvMessages.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gvMessages.Size = new System.Drawing.Size(1019, 559);
+            this.gvMessages.Size = new System.Drawing.Size(1019, 438);
             this.gvMessages.Style = MetroFramework.MetroColorStyle.Silver;
             this.gvMessages.TabIndex = 4;
             this.gvMessages.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gvMessages_DataError);
@@ -175,44 +177,38 @@
             this.sender.HeaderText = "Sender";
             this.sender.Name = "sender";
             this.sender.ReadOnly = true;
+            this.sender.Width = 66;
             // 
             // timestamp
             // 
             this.timestamp.HeaderText = "Timestamp";
             this.timestamp.Name = "timestamp";
             this.timestamp.ReadOnly = true;
+            this.timestamp.Width = 84;
             // 
             // sentreceived
             // 
             this.sentreceived.HeaderText = "Sent/Received";
             this.sentreceived.Name = "sentreceived";
             this.sentreceived.ReadOnly = true;
+            this.sentreceived.Width = 102;
             // 
             // message
             // 
             this.message.HeaderText = "Message";
             this.message.Name = "message";
             this.message.ReadOnly = true;
-            // 
-            // btnView
-            // 
-            this.btnView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnView.Location = new System.Drawing.Point(1097, 110);
-            this.btnView.Name = "btnView";
-            this.btnView.Size = new System.Drawing.Size(134, 23);
-            this.btnView.TabIndex = 5;
-            this.btnView.Text = "Reload Messages";
-            this.btnView.UseSelectable = true;
-            this.btnView.Click += new System.EventHandler(this.BtnView_Click);
+            this.message.Width = 75;
             // 
             // cbFileFormat
             // 
+            this.cbFileFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbFileFormat.FormattingEnabled = true;
             this.cbFileFormat.ItemHeight = 23;
             this.cbFileFormat.Items.AddRange(new object[] {
             "Plain Text",
             "CSV"});
-            this.cbFileFormat.Location = new System.Drawing.Point(1097, 578);
+            this.cbFileFormat.Location = new System.Drawing.Point(1097, 28);
             this.cbFileFormat.Name = "cbFileFormat";
             this.cbFileFormat.Size = new System.Drawing.Size(134, 29);
             this.cbFileFormat.TabIndex = 6;
@@ -332,7 +328,8 @@
             // 
             // btnPrintFiltered
             // 
-            this.btnPrintFiltered.Location = new System.Drawing.Point(1058, 677);
+            this.btnPrintFiltered.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrintFiltered.Location = new System.Drawing.Point(1058, 63);
             this.btnPrintFiltered.Name = "btnPrintFiltered";
             this.btnPrintFiltered.Size = new System.Drawing.Size(173, 23);
             this.btnPrintFiltered.TabIndex = 16;
@@ -340,11 +337,33 @@
             this.btnPrintFiltered.UseSelectable = true;
             this.btnPrintFiltered.Click += new System.EventHandler(this.PrintFiltered_Click);
             // 
+            // cbColorPicker
+            // 
+            this.cbColorPicker.FormattingEnabled = true;
+            this.cbColorPicker.ItemHeight = 23;
+            this.cbColorPicker.Location = new System.Drawing.Point(84, 136);
+            this.cbColorPicker.Name = "cbColorPicker";
+            this.cbColorPicker.Size = new System.Drawing.Size(146, 29);
+            this.cbColorPicker.TabIndex = 17;
+            this.cbColorPicker.UseSelectable = true;
+            this.cbColorPicker.SelectedIndexChanged += new System.EventHandler(this.cbColorPicker_SelectedIndexChanged);
+            // 
+            // metroLabel7
+            // 
+            this.metroLabel7.AutoSize = true;
+            this.metroLabel7.Location = new System.Drawing.Point(23, 136);
+            this.metroLabel7.Name = "metroLabel7";
+            this.metroLabel7.Size = new System.Drawing.Size(52, 19);
+            this.metroLabel7.TabIndex = 18;
+            this.metroLabel7.Text = "Theme:";
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1254, 753);
+            this.ClientSize = new System.Drawing.Size(1254, 632);
+            this.Controls.Add(this.metroLabel7);
+            this.Controls.Add(this.cbColorPicker);
             this.Controls.Add(this.btnPrintFiltered);
             this.Controls.Add(this.metroButton1);
             this.Controls.Add(this.dtTo);
@@ -356,7 +375,6 @@
             this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.cbFileFormat);
-            this.Controls.Add(this.btnView);
             this.Controls.Add(this.gvMessages);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.txtContact);
@@ -377,7 +395,6 @@
         private MetroFramework.Controls.MetroTextBox txtContact;
         private MetroFramework.Controls.MetroButton btnStart;
         private MetroFramework.Controls.MetroGrid gvMessages;
-        private MetroFramework.Controls.MetroButton btnView;
         private System.Windows.Forms.DataGridViewTextBoxColumn sender;
         private System.Windows.Forms.DataGridViewTextBoxColumn timestamp;
         private System.Windows.Forms.DataGridViewTextBoxColumn sentreceived;
@@ -393,6 +410,8 @@
         private MetroFramework.Controls.MetroDateTime dtTo;
         private MetroFramework.Controls.MetroButton metroButton1;
         private MetroFramework.Controls.MetroButton btnPrintFiltered;
+        private MetroFramework.Controls.MetroComboBox cbColorPicker;
+        private MetroFramework.Controls.MetroLabel metroLabel7;
     }
 }
 

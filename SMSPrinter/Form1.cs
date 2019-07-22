@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 using MetroFramework.Controls;
 using MetroFramework.Forms;
@@ -11,6 +12,8 @@ namespace SMSPrinter
     {
         private DataTable messages = null;
         private int numberOfColumns = 4;
+        private readonly string[] metroColors = { "Black", "White", "Silver", "Blue", "Green", "Lime", "Teal", "Orange", "Brown", "Pink", "Magenta", "Purple", "Red", "Yellow" };
+
 
         public FrmMain()
         {
@@ -20,6 +23,10 @@ namespace SMSPrinter
             dtTo.ValueChanged -= dt_ValueChanged;
             dtTo.Value = DateTime.Now.AddDays(1);
             dtTo.ValueChanged += dt_ValueChanged;
+            cbColorPicker.DataSource = metroColors;
+            cbColorPicker.SelectedIndex = 3;
+            BtnView_Click(null, null);
+            gvMessages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
@@ -63,8 +70,6 @@ namespace SMSPrinter
 
             }
             gvMessages.DataSource = dt; ;
-            for (int x = 0; x < numberOfColumns; x++)
-                gvMessages.AutoResizeColumn(x);
         }
 
         private void gvMessages_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -87,7 +92,7 @@ namespace SMSPrinter
             string filepath = SaveFile(filetype);
             // TODO P1 add print functionality with filetype selection
             // TODO P3 add filetype selection
-            switch(filetype)
+            switch (filetype)
             {
                 case 0:
                     result = Utilities.WriteToTextFile(dt, filepath);
@@ -99,7 +104,7 @@ namespace SMSPrinter
                     result = false;
                     break;
             }
-            if(result)
+            if (result)
             {
                 DialogResult dr = MessageBox.Show("Write finished. Open file?", "Success", MessageBoxButtons.YesNo);
                 if (dr == DialogResult.Yes)
@@ -113,7 +118,7 @@ namespace SMSPrinter
         private string SaveFile(int filetype)
         {
             string filter;
-            switch(filetype)
+            switch (filetype)
             {
                 case 0:
                     filter = "Text|*.txt";
@@ -169,15 +174,16 @@ namespace SMSPrinter
 
         private void dt_ValueChanged(object sender, EventArgs e)
         {
-            if(dtFrom.Value > dtTo.Value)
+            // TODO P1 toggle other date picker's date automatically instead of popup
+            if (dtFrom.Value > dtTo.Value)
             {
                 MessageBox.Show("From date must be on or before To date", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dtFrom.Value = new DateTime(2001, 01, 01);
                 dtTo.Value = DateTime.Now.AddDays(1);
             }
             else
-            // TODO P1 wtf is up with this part? 8/11 and 8/11 shows nothing, 8/10 and 8/11 shows only 8/11, 8/9 and 8/11 shows nothing.
-            (gvMessages.DataSource as DataTable).DefaultView.RowFilter = string.Format("timestamp >= '{0}' AND timestamp <= '{1}'", dtFrom.Value, dtTo.Value);
+                // TODO P1 wtf is up with this part? 8/11 and 8/11 shows nothing, 8/10 and 8/11 shows only 8/11, 8/9 and 8/11 shows nothing.
+                (gvMessages.DataSource as DataTable).DefaultView.RowFilter = string.Format("timestamp >= '{0}' AND timestamp <= '{1}'", dtFrom.Value, dtTo.Value);
         }
 
         private void PrintFiltered_Click(object sender, EventArgs e)
@@ -203,6 +209,67 @@ namespace SMSPrinter
             else
                 MessageBox.Show("No messages in filtered view. Try different criteria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+        }
+
+        private void cbColorPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (cbColorPicker.SelectedIndex)
+            {
+                case 0:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Black;
+                    break;
+                case 1:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.White;
+                    break;
+                case 2:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Silver;
+                    break;
+                case 3:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Blue;
+                    break;
+                case 4:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Green;
+                    break;
+                case 5:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Lime;
+                    break;
+                case 6:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Teal;
+                    break;
+                case 7:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Orange;
+                    break;
+                case 8:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Brown;
+                    break;
+                case 9:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Pink;
+                    break;
+                case 10:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Magenta;
+                    break;
+                case 11:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Purple;
+                    break;
+                case 12:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Red;
+                    break;
+                case 13:
+                    gvMessages.Style = MetroFramework.MetroColorStyle.Yellow;
+                    break;
+                default:
+                    break;
+            }
+
+            Style = gvMessages.Style;
+            dtFrom.Style = gvMessages.Style;
+            dtTo.Style = gvMessages.Style;
+            txtContact.Style = gvMessages.Style;
+            txtMessage.Style = gvMessages.Style;
+            btnPrintFiltered.Style = gvMessages.Style;
+            btnStart.Style = gvMessages.Style;
+            cbColorPicker.Style = gvMessages.Style;
+            cbFileFormat.Style = gvMessages.Style;
         }
     }
 }
