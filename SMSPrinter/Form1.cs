@@ -1,0 +1,208 @@
+﻿using System;
+using System.Data;
+using System.Diagnostics;
+using System.Windows.Forms;
+using MetroFramework.Controls;
+using MetroFramework.Forms;
+
+namespace SMSPrinter
+{
+    public partial class FrmMain : MetroForm
+    {
+        private DataTable messages = null;
+        private int numberOfColumns = 4;
+
+        public FrmMain()
+        {
+            InitializeComponent();
+            WireColumns();
+            cbFileFormat.SelectedIndex = 0;
+            dtTo.ValueChanged -= dt_ValueChanged;
+            dtTo.Value = DateTime.Now.AddDays(1);
+            dtTo.ValueChanged += dt_ValueChanged;
+        }
+
+        private void BtnStart_Click(object sender, EventArgs e)
+        {
+            messages = (DataTable)gvMessages.DataSource;
+            if (messages != null)
+                Print(messages, cbFileFormat.SelectedIndex);
+            else
+                MessageBox.Show("No messages in dataset.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private string FormatNumber(string number)
+        {
+            return number.Substring(0, 2) + " (" + number.Substring(2, 3) + ") " + number.Substring(5, 3) + "-" + number.Substring(8);
+        }
+
+        private void BtnView_Click(object sender, EventArgs e)
+        {
+            // TODO P3 add color picker
+            // TODO P2 add formatting options
+            // TODO P3 add emoji support
+            // TODO P3 rename datatable columns to make csv output look better
+            btnStart.Enabled = true;
+            txtContact.Enabled = true;
+            txtContact.Text = "";
+            DBAccess dba = new DBAccess("");
+            // TODO P1 add OFD
+            DataTable dt = dba.GetTable("select handle.id, message.date, message.text, message.is_from_me from message, handle where message.handle_id = handle.rowid");
+            dt.Columns.Add("Timestamp");
+            dt.Columns.Add("SentReceived");
+            foreach (DataRow row in dt.Rows)
+            {
+                row["Timestamp"] = Utilities.FromEpoch(long.Parse(row["date"].ToString()));
+                row["id"] = FormatNumber(row["id"].ToString());
+                if (int.Parse(row["is_from_me"].ToString()) == 1)
+                    row["SentReceived"] = "Sent";
+                else
+                    row["SentReceived"] = "Received";
+                // Convert Unicode to ASCII
+                row["text"] = Utilities.EncodeNonAsciiCharacters(row["text"].ToString());
+
+            }
+            gvMessages.DataSource = dt; ;
+            for (int x = 0; x < numberOfColumns; x++)
+                gvMessages.AutoResizeColumn(x);
+        }
+
+        private void gvMessages_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("There was an error while the data was being read for display.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MetroGrid mg = (MetroGrid)sender;
+            // Only fire event once
+            mg.DataError -= gvMessages_DataError;
+            mg.DataError += gvMessages_DataErrorFired;
+        }
+
+        private void gvMessages_DataErrorFired(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            // Leave this blank
+        }
+
+        private void Print(DataTable dt, int filetype)
+        {
+            bool result = true;
+            string filepath = SaveFile(filetype);
+            // TODO P1 add print functionality with filetype selection
+            // TODO P3 add filetype selection
+            switch(filetype)
+            {
+                case 0:
+                    result = Utilities.WriteToTextFile(dt, filepath);
+                    break;
+                case 1:
+                    result = Utilities.WriteToCsvFile(dt, filepath);
+                    break;
+                default:
+                    result = false;
+                    break;
+            }
+            if(result)
+            {
+                DialogResult dr = MessageBox.Show("Write finished. Open file?", "Success", MessageBoxButtons.YesNo);
+                if (dr == DialogResult.Yes)
+                    Process.Start(filepath);
+            }
+            else
+                MessageBox.Show("Write error.", "Error", MessageBoxButtons.OK);
+        }
+
+
+        private string SaveFile(int filetype)
+        {
+            string filter;
+            switch(filetype)
+            {
+                case 0:
+                    filter = "Text|*.txt";
+                    break;
+                case 1:
+                    filter = "Comma Separated Values|*.csv";
+                    break;
+                default:
+                    filter = "All Files|*.*";
+                    break;
+            }
+
+            using (SaveFileDialog sfd = new SaveFileDialog
+            {
+                Title = "Save Print File",
+                Filter = filter,
+                FilterIndex = 0,
+                RestoreDirectory = true,
+                FileName = "messages"
+            })
+            {
+                DialogResult result = sfd.ShowDialog();
+                if (result == DialogResult.OK)
+                    return sfd.FileName;
+                else
+                    return "";
+            }
+        }
+
+        private void WireColumns()
+        {
+            gvMessages.AutoGenerateColumns = false;
+            gvMessages.Columns["sender"].DataPropertyName = "id";
+            gvMessages.Columns["timestamp"].DataPropertyName = "TimeStamp";
+            gvMessages.Columns["message"].DataPropertyName = "text";
+            gvMessages.Columns["sentreceived"].DataPropertyName = "SentReceived";
+        }
+
+        private void txtContact_TextChanged(object sender, EventArgs e)
+        {
+            (gvMessages.DataSource as DataTable).DefaultView.RowFilter = string.Format("id LIKE '%{0}%'", txtContact.Text);
+        }
+
+        private void txtMessage_TextChanged(object sender, EventArgs e)
+        {
+            (gvMessages.DataSource as DataTable).DefaultView.RowFilter = string.Format("text LIKE '%{0}%'", txtMessage.Text);
+        }
+
+        private void metroButton1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Changing the values in any of the fields will filter the data table's contents accordingly. Text fields are case insensitive. You can also sort the contents of the table by clicking on a column header. When the contents reflect the desired output, select an output file format and click print.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void dt_ValueChanged(object sender, EventArgs e)
+        {
+            if(dtFrom.Value > dtTo.Value)
+            {
+                MessageBox.Show("From date must be on or before To date", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dtFrom.Value = new DateTime(2001, 01, 01);
+                dtTo.Value = DateTime.Now.AddDays(1);
+            }
+            else
+            // TODO P1 wtf is up with this part? 8/11 and 8/11 shows nothing, 8/10 and 8/11 shows only 8/11, 8/9 and 8/11 shows nothing.
+            (gvMessages.DataSource as DataTable).DefaultView.RowFilter = string.Format("timestamp >= '{0}' AND timestamp <= '{1}'", dtFrom.Value, dtTo.Value);
+        }
+
+        private void PrintFiltered_Click(object sender, EventArgs e)
+        {
+            DataTable filteredTable = new DataTable();
+            foreach (DataGridViewColumn column in gvMessages.Columns)
+            {
+                filteredTable.Columns.Add(column.Name);
+            }
+            foreach (DataGridViewRow row in gvMessages.Rows)
+            {
+                DataRow dataRow = filteredTable.NewRow();
+                for (int i = 0; i < filteredTable.Columns.Count; i++)
+                {
+                    dataRow[i] = row.Cells[i].Value;
+                }
+                filteredTable.Rows.Add(dataRow);
+            }
+            // TODO P1 determine cause of write error messagebox on plaintext filtered output
+            messages = filteredTable;
+            if (messages != null)
+                Print(messages, cbFileFormat.SelectedIndex);
+            else
+                MessageBox.Show("No messages in filtered view. Try different criteria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        }
+    }
+}

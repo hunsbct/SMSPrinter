@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.489
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSPrinter", "SMSPrinter\SMSPrinter.csproj", "{9CE53BEF-B04A-4E7B-ACCD-CB5051BEAC2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CE53BEF-B04A-4E7B-ACCD-CB5051BEAC2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CE53BEF-B04A-4E7B-ACCD-CB5051BEAC2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CE53BEF-B04A-4E7B-ACCD-CB5051BEAC2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CE53BEF-B04A-4E7B-ACCD-CB5051BEAC2D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {241FB2AC-7341-4E26-B66B-B56ADBD57854}
+	EndGlobalSection
+EndGlobal
