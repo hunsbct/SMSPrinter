@@ -34,12 +34,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.txtContact = new MetroFramework.Controls.MetroTextBox();
-            this.btnStart = new MetroFramework.Controls.MetroButton();
             this.gvMessages = new MetroFramework.Controls.MetroGrid();
-            this.sender = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.timestamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sentreceived = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.message = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbFileFormat = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
@@ -53,6 +48,11 @@
             this.btnPrintFiltered = new MetroFramework.Controls.MetroButton();
             this.cbColorPicker = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
+            this.sender = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timestamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sentreceived = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.message = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.gvMessages)).BeginInit();
             this.SuspendLayout();
             // 
@@ -99,20 +99,6 @@
             this.txtContact.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.txtContact.TextChanged += new System.EventHandler(this.txtContact_TextChanged);
             // 
-            // btnStart
-            // 
-            this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStart.Enabled = false;
-            this.btnStart.Location = new System.Drawing.Point(1058, 92);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(173, 24);
-            this.btnStart.Style = MetroFramework.MetroColorStyle.Silver;
-            this.btnStart.TabIndex = 3;
-            this.btnStart.Text = "Print All Messages";
-            this.btnStart.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.btnStart.UseSelectable = true;
-            this.btnStart.Click += new System.EventHandler(this.BtnStart_Click);
-            // 
             // gvMessages
             // 
             this.gvMessages.AllowUserToAddRows = false;
@@ -124,6 +110,7 @@
             this.gvMessages.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.gvMessages.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.gvMessages.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gvMessages.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gvMessages.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.gvMessages.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -167,38 +154,10 @@
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gvMessages.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.gvMessages.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gvMessages.Size = new System.Drawing.Size(1019, 438);
+            this.gvMessages.Size = new System.Drawing.Size(1208, 438);
             this.gvMessages.Style = MetroFramework.MetroColorStyle.Silver;
             this.gvMessages.TabIndex = 4;
             this.gvMessages.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gvMessages_DataError);
-            // 
-            // sender
-            // 
-            this.sender.HeaderText = "Sender";
-            this.sender.Name = "sender";
-            this.sender.ReadOnly = true;
-            this.sender.Width = 66;
-            // 
-            // timestamp
-            // 
-            this.timestamp.HeaderText = "Timestamp";
-            this.timestamp.Name = "timestamp";
-            this.timestamp.ReadOnly = true;
-            this.timestamp.Width = 84;
-            // 
-            // sentreceived
-            // 
-            this.sentreceived.HeaderText = "Sent/Received";
-            this.sentreceived.Name = "sentreceived";
-            this.sentreceived.ReadOnly = true;
-            this.sentreceived.Width = 102;
-            // 
-            // message
-            // 
-            this.message.HeaderText = "Message";
-            this.message.Name = "message";
-            this.message.ReadOnly = true;
-            this.message.Width = 75;
             // 
             // cbFileFormat
             // 
@@ -208,7 +167,7 @@
             this.cbFileFormat.Items.AddRange(new object[] {
             "Plain Text",
             "CSV"});
-            this.cbFileFormat.Location = new System.Drawing.Point(1097, 28);
+            this.cbFileFormat.Location = new System.Drawing.Point(750, 136);
             this.cbFileFormat.Name = "cbFileFormat";
             this.cbFileFormat.Size = new System.Drawing.Size(134, 29);
             this.cbFileFormat.TabIndex = 6;
@@ -329,11 +288,11 @@
             // btnPrintFiltered
             // 
             this.btnPrintFiltered.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrintFiltered.Location = new System.Drawing.Point(1058, 63);
+            this.btnPrintFiltered.Location = new System.Drawing.Point(890, 142);
             this.btnPrintFiltered.Name = "btnPrintFiltered";
             this.btnPrintFiltered.Size = new System.Drawing.Size(173, 23);
             this.btnPrintFiltered.TabIndex = 16;
-            this.btnPrintFiltered.Text = "Print Filtered Table Contents";
+            this.btnPrintFiltered.Text = "Print Table Contents";
             this.btnPrintFiltered.UseSelectable = true;
             this.btnPrintFiltered.Click += new System.EventHandler(this.PrintFiltered_Click);
             // 
@@ -357,11 +316,50 @@
             this.metroLabel7.TabIndex = 18;
             this.metroLabel7.Text = "Theme:";
             // 
+            // sender
+            // 
+            this.sender.HeaderText = "Sender";
+            this.sender.Name = "sender";
+            this.sender.ReadOnly = true;
+            this.sender.Width = 66;
+            // 
+            // timestamp
+            // 
+            this.timestamp.HeaderText = "Timestamp";
+            this.timestamp.Name = "timestamp";
+            this.timestamp.ReadOnly = true;
+            this.timestamp.Width = 84;
+            // 
+            // sentreceived
+            // 
+            this.sentreceived.HeaderText = "Sent/Received";
+            this.sentreceived.Name = "sentreceived";
+            this.sentreceived.ReadOnly = true;
+            this.sentreceived.Width = 102;
+            // 
+            // message
+            // 
+            this.message.HeaderText = "Message";
+            this.message.Name = "message";
+            this.message.ReadOnly = true;
+            this.message.Width = 75;
+            // 
+            // metroLabel8
+            // 
+            this.metroLabel8.AutoSize = true;
+            this.metroLabel8.Location = new System.Drawing.Point(750, 114);
+            this.metroLabel8.Name = "metroLabel8";
+            this.metroLabel8.Size = new System.Drawing.Size(124, 19);
+            this.metroLabel8.TabIndex = 19;
+            this.metroLabel8.Text = "Output File Format:";
+            this.metroLabel8.Theme = MetroFramework.MetroThemeStyle.Light;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1254, 632);
+            this.Controls.Add(this.metroLabel8);
             this.Controls.Add(this.metroLabel7);
             this.Controls.Add(this.cbColorPicker);
             this.Controls.Add(this.btnPrintFiltered);
@@ -376,7 +374,6 @@
             this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.cbFileFormat);
             this.Controls.Add(this.gvMessages);
-            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.txtContact);
             this.Controls.Add(this.metroLabel1);
             this.Name = "FrmMain";
@@ -393,12 +390,7 @@
         #endregion
         private MetroFramework.Controls.MetroLabel metroLabel1;
         private MetroFramework.Controls.MetroTextBox txtContact;
-        private MetroFramework.Controls.MetroButton btnStart;
         private MetroFramework.Controls.MetroGrid gvMessages;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sender;
-        private System.Windows.Forms.DataGridViewTextBoxColumn timestamp;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sentreceived;
-        private System.Windows.Forms.DataGridViewTextBoxColumn message;
         private MetroFramework.Controls.MetroComboBox cbFileFormat;
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroLabel metroLabel3;
@@ -412,6 +404,11 @@
         private MetroFramework.Controls.MetroButton btnPrintFiltered;
         private MetroFramework.Controls.MetroComboBox cbColorPicker;
         private MetroFramework.Controls.MetroLabel metroLabel7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sender;
+        private System.Windows.Forms.DataGridViewTextBoxColumn timestamp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sentreceived;
+        private System.Windows.Forms.DataGridViewTextBoxColumn message;
+        private MetroFramework.Controls.MetroLabel metroLabel8;
     }
 }
 

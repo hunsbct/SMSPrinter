@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using MetroFramework.Controls;
@@ -11,7 +12,6 @@ namespace SMSPrinter
     public partial class FrmMain : MetroForm
     {
         private DataTable messages = null;
-        private int numberOfColumns = 4;
         private readonly string[] metroColors = { "Black", "White", "Silver", "Blue", "Green", "Lime", "Teal", "Orange", "Brown", "Pink", "Magenta", "Purple", "Red", "Yellow" };
 
 
@@ -49,7 +49,6 @@ namespace SMSPrinter
             // TODO P2 add formatting options
             // TODO P3 add emoji support
             // TODO P3 rename datatable columns to make csv output look better
-            btnStart.Enabled = true;
             txtContact.Enabled = true;
             txtContact.Text = "";
             DBAccess dba = new DBAccess("");
@@ -60,6 +59,7 @@ namespace SMSPrinter
             foreach (DataRow row in dt.Rows)
             {
                 row["Timestamp"] = Utilities.FromEpoch(long.Parse(row["date"].ToString()));
+                string[] dateValues = row["Timestamp"].ToString().Split(' ')[0].Split('/');
                 row["id"] = FormatNumber(row["id"].ToString());
                 if (int.Parse(row["is_from_me"].ToString()) == 1)
                     row["SentReceived"] = "Sent";
@@ -69,7 +69,7 @@ namespace SMSPrinter
                 row["text"] = Utilities.EncodeNonAsciiCharacters(row["text"].ToString());
 
             }
-            gvMessages.DataSource = dt; ;
+            gvMessages.DataSource = dt; 
         }
 
         private void gvMessages_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -153,6 +153,7 @@ namespace SMSPrinter
             gvMessages.AutoGenerateColumns = false;
             gvMessages.Columns["sender"].DataPropertyName = "id";
             gvMessages.Columns["timestamp"].DataPropertyName = "TimeStamp";
+            gvMessages.Columns["TimeStamp"].ValueType = typeof(DateTime);
             gvMessages.Columns["message"].DataPropertyName = "text";
             gvMessages.Columns["sentreceived"].DataPropertyName = "SentReceived";
         }
@@ -174,32 +175,32 @@ namespace SMSPrinter
 
         private void dt_ValueChanged(object sender, EventArgs e)
         {
+            DateTimePicker dtp = (DateTimePicker)sender;
+            string senderName = dtp.Name;
             // TODO P1 toggle other date picker's date automatically instead of popup
             if (dtFrom.Value > dtTo.Value)
             {
-                MessageBox.Show("From date must be on or before To date", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                dtFrom.Value = new DateTime(2001, 01, 01);
-                dtTo.Value = DateTime.Now.AddDays(1);
+                if (senderName == "dtFrom")
+                    dtTo.Value = dtFrom.Value;
+                else
+                    dtFrom.Value = dtTo.Value;
             }
             else
-                // TODO P1 wtf is up with this part? 8/11 and 8/11 shows nothing, 8/10 and 8/11 shows only 8/11, 8/9 and 8/11 shows nothing.
-                (gvMessages.DataSource as DataTable).DefaultView.RowFilter = string.Format("timestamp >= '{0}' AND timestamp <= '{1}'", dtFrom.Value, dtTo.Value);
+                // TODO P1 this is filtering by string format of datetime, and not the actual value.
+                (gvMessages.DataSource as DataTable).DefaultView.RowFilter = string.Format("Timestamp.Split(' ')[0] >= '{0}'", dtFrom.Value.Date);
         }
 
         private void PrintFiltered_Click(object sender, EventArgs e)
         {
+            // TODO P3 Switch from label for output file format to index 0 of ddl and handle accordingly.
             DataTable filteredTable = new DataTable();
             foreach (DataGridViewColumn column in gvMessages.Columns)
-            {
                 filteredTable.Columns.Add(column.Name);
-            }
             foreach (DataGridViewRow row in gvMessages.Rows)
             {
                 DataRow dataRow = filteredTable.NewRow();
                 for (int i = 0; i < filteredTable.Columns.Count; i++)
-                {
                     dataRow[i] = row.Cells[i].Value;
-                }
                 filteredTable.Rows.Add(dataRow);
             }
             // TODO P1 determine cause of write error messagebox on plaintext filtered output
@@ -208,7 +209,6 @@ namespace SMSPrinter
                 Print(messages, cbFileFormat.SelectedIndex);
             else
                 MessageBox.Show("No messages in filtered view. Try different criteria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
         }
 
         private void cbColorPicker_SelectedIndexChanged(object sender, EventArgs e)
@@ -267,9 +267,9 @@ namespace SMSPrinter
             txtContact.Style = gvMessages.Style;
             txtMessage.Style = gvMessages.Style;
             btnPrintFiltered.Style = gvMessages.Style;
-            btnStart.Style = gvMessages.Style;
             cbColorPicker.Style = gvMessages.Style;
             cbFileFormat.Style = gvMessages.Style;
+            this.Refresh();
         }
     }
 }
