@@ -15,6 +15,11 @@ namespace SMSPrinter
             return epoch.AddSeconds(seconds);
         }
 
+        public static long ToEpoch(DateTime timestamp)
+        {
+            return (long)(timestamp - epoch).TotalSeconds;
+        }
+
         public static bool ValidatePhoneNumber(string number)
         {
             Regex rgx = new Regex(@"[0-9]{10}");
@@ -24,7 +29,7 @@ namespace SMSPrinter
         public static bool WriteToCsvFile(DataTable dt, string filePath)
         {
             bool result = false;
-            dt.Columns["id"].ColumnName = "Sender";
+            dt.Columns["sender"].ColumnName = "Sender";
             dt.Columns["text"].ColumnName = "Message";
             dt.Columns.Remove("is_from_me");
             dt.Columns.Remove("SentReceived");
@@ -66,8 +71,13 @@ namespace SMSPrinter
                 {
                     foreach (DataRow row in dataTable.Rows)
                     {
-                        sw.WriteLine(row["id"].ToString());
-                        sw.WriteLine("[" + row["timestamp"] + "]");
+                        sw.WriteLine(row["sender"].ToString());
+                        string line = "[" + row["timestamp"] + "]";
+                        if (row["sentreceived"].ToString() == "Sent")
+                            line += " -> ";
+                        else
+                            line += " <- ";
+                        sw.WriteLine(line);
                         sw.WriteLine(row["text"]);
                         sw.WriteLine();
                     }

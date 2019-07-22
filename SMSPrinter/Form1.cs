@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
 using System.Windows.Forms;
 using MetroFramework.Controls;
 using MetroFramework.Forms;
@@ -51,9 +49,20 @@ namespace SMSPrinter
             // TODO P3 rename datatable columns to make csv output look better
             txtContact.Enabled = true;
             txtContact.Text = "";
+
+            gvMessages.DataSource = GetTable();
+            txtContact_TextChanged(null, null);
+            txtMessage_TextChanged(null, null);
+        }
+
+        private DataTable GetTable()
+        {
             DBAccess dba = new DBAccess("");
+            long fromTime = Utilities.ToEpoch(dtFrom.Value), toTime = Utilities.ToEpoch(dtTo.Value);
             // TODO P1 add OFD
-            DataTable dt = dba.GetTable("select handle.id, message.date, message.text, message.is_from_me from message, handle where message.handle_id = handle.rowid");
+            DataTable dt = dba.GetTable("select handle.id, " +
+                "message.date, message.text, message.is_from_me from message, " +
+                "handle where message.handle_id = handle.rowid and message.date between " + fromTime + " and " + toTime);
             dt.Columns.Add("Timestamp");
             dt.Columns.Add("SentReceived");
             foreach (DataRow row in dt.Rows)
@@ -67,9 +76,9 @@ namespace SMSPrinter
                     row["SentReceived"] = "Received";
                 // Convert Unicode to ASCII
                 row["text"] = Utilities.EncodeNonAsciiCharacters(row["text"].ToString());
-
             }
-            gvMessages.DataSource = dt; 
+
+            return dt;
         }
 
         private void gvMessages_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -177,7 +186,6 @@ namespace SMSPrinter
         {
             DateTimePicker dtp = (DateTimePicker)sender;
             string senderName = dtp.Name;
-            // TODO P1 toggle other date picker's date automatically instead of popup
             if (dtFrom.Value > dtTo.Value)
             {
                 if (senderName == "dtFrom")
@@ -186,8 +194,11 @@ namespace SMSPrinter
                     dtFrom.Value = dtTo.Value;
             }
             else
-                // TODO P1 this is filtering by string format of datetime, and not the actual value.
-                (gvMessages.DataSource as DataTable).DefaultView.RowFilter = string.Format("Timestamp.Split(' ')[0] >= '{0}'", dtFrom.Value.Date);
+            {
+                gvMessages.DataSource = GetTable();
+                txtContact_TextChanged(null, null);
+                txtMessage_TextChanged(null, null);
+            }
         }
 
         private void PrintFiltered_Click(object sender, EventArgs e)

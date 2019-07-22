@@ -35,6 +35,10 @@
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.txtContact = new MetroFramework.Controls.MetroTextBox();
             this.gvMessages = new MetroFramework.Controls.MetroGrid();
+            this.sender = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timestamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sentreceived = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.message = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbFileFormat = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
@@ -48,10 +52,6 @@
             this.btnPrintFiltered = new MetroFramework.Controls.MetroButton();
             this.cbColorPicker = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
-            this.sender = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.timestamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sentreceived = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.message = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.gvMessages)).BeginInit();
             this.SuspendLayout();
@@ -159,6 +159,34 @@
             this.gvMessages.TabIndex = 4;
             this.gvMessages.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gvMessages_DataError);
             // 
+            // sender
+            // 
+            this.sender.HeaderText = "Sender";
+            this.sender.Name = "sender";
+            this.sender.ReadOnly = true;
+            this.sender.Width = 66;
+            // 
+            // timestamp
+            // 
+            this.timestamp.HeaderText = "Timestamp";
+            this.timestamp.Name = "timestamp";
+            this.timestamp.ReadOnly = true;
+            this.timestamp.Width = 84;
+            // 
+            // sentreceived
+            // 
+            this.sentreceived.HeaderText = "Sent/Received";
+            this.sentreceived.Name = "sentreceived";
+            this.sentreceived.ReadOnly = true;
+            this.sentreceived.Width = 102;
+            // 
+            // message
+            // 
+            this.message.HeaderText = "Message";
+            this.message.Name = "message";
+            this.message.ReadOnly = true;
+            this.message.Width = 75;
+            // 
             // cbFileFormat
             // 
             this.cbFileFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -228,6 +256,7 @@
             // 
             // dtFrom
             // 
+            this.dtFrom.Enabled = false;
             this.dtFrom.Location = new System.Drawing.Point(326, 89);
             this.dtFrom.MinimumSize = new System.Drawing.Size(0, 29);
             this.dtFrom.Name = "dtFrom";
@@ -268,6 +297,7 @@
             // 
             // dtTo
             // 
+            this.dtTo.Enabled = false;
             this.dtTo.Location = new System.Drawing.Point(532, 89);
             this.dtTo.MinimumSize = new System.Drawing.Size(0, 29);
             this.dtTo.Name = "dtTo";
@@ -315,34 +345,6 @@
             this.metroLabel7.Size = new System.Drawing.Size(52, 19);
             this.metroLabel7.TabIndex = 18;
             this.metroLabel7.Text = "Theme:";
-            // 
-            // sender
-            // 
-            this.sender.HeaderText = "Sender";
-            this.sender.Name = "sender";
-            this.sender.ReadOnly = true;
-            this.sender.Width = 66;
-            // 
-            // timestamp
-            // 
-            this.timestamp.HeaderText = "Timestamp";
-            this.timestamp.Name = "timestamp";
-            this.timestamp.ReadOnly = true;
-            this.timestamp.Width = 84;
-            // 
-            // sentreceived
-            // 
-            this.sentreceived.HeaderText = "Sent/Received";
-            this.sentreceived.Name = "sentreceived";
-            this.sentreceived.ReadOnly = true;
-            this.sentreceived.Width = 102;
-            // 
-            // message
-            // 
-            this.message.HeaderText = "Message";
-            this.message.Name = "message";
-            this.message.ReadOnly = true;
-            this.message.Width = 75;
             // 
             // metroLabel8
             // 
