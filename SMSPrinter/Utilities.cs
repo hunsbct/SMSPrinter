@@ -29,13 +29,13 @@ namespace SMSPrinter
         public static bool WriteToCsvFile(DataTable dt, string filePath)
         {
             bool result = false;
-            dt.Columns["sender"].ColumnName = "Sender";
-            dt.Columns["text"].ColumnName = "Message";
-            dt.Columns.Remove("is_from_me");
-            dt.Columns.Remove("SentReceived");
-            dt.Columns.Remove("date");
             try
             {
+                dt.Columns["sender"].ColumnName = "Sender";
+                dt.Columns["text"].ColumnName = "Message";
+                dt.Columns.Remove("is_from_me");
+                dt.Columns.Remove("SentReceived");
+                dt.Columns.Remove("date");
                 StringBuilder fileContent = new StringBuilder();
 
                 foreach (var col in dt.Columns)
@@ -58,8 +58,8 @@ namespace SMSPrinter
             {
 
             }
+
             return result;
-            
         }
 
         public static bool WriteToTextFile(DataTable dataTable, string filepath)
@@ -78,7 +78,7 @@ namespace SMSPrinter
                         else
                             line += " <- ";
                         sw.WriteLine(line);
-                        sw.WriteLine(row["text"]);
+                        sw.WriteLine(row["message"]);
                         sw.WriteLine();
                     }
                 }
@@ -99,7 +99,7 @@ namespace SMSPrinter
             foreach (char c in value)
             {
                 if (c > 127)
-                    sb.Append("U+" + ((int)c).ToString("x4"));
+                    sb.Append("u+" + ((int)c).ToString("x4")).Append(" ");
                 else
                     sb.Append(c);
             }

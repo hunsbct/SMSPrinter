@@ -8,8 +8,7 @@ namespace SMSPrinter
         private SQLiteConnection Connection;
         public DBAccess(string dbfilepath)
         {
-            // TODO P1 remove
-            // TODO P2 add help manual (at end)
+            // TODO add OFD
             dbfilepath = "sms.db";
             Connection = new SQLiteConnection("Data Source=" + dbfilepath + ";FailIfMissing=True;");
         }

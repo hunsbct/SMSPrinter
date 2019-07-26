@@ -26,16 +26,7 @@ namespace SMSPrinter
             BtnView_Click(null, null);
             gvMessages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         }
-
-        private void BtnStart_Click(object sender, EventArgs e)
-        {
-            messages = (DataTable)gvMessages.DataSource;
-            if (messages != null)
-                Print(messages, cbFileFormat.SelectedIndex);
-            else
-                MessageBox.Show("No messages in dataset.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
+        
         private string FormatNumber(string number)
         {
             return number.Substring(0, 2) + " (" + number.Substring(2, 3) + ") " + number.Substring(5, 3) + "-" + number.Substring(8);
@@ -43,10 +34,8 @@ namespace SMSPrinter
 
         private void BtnView_Click(object sender, EventArgs e)
         {
-            // TODO P3 add color picker
-            // TODO P2 add formatting options
-            // TODO P3 add emoji support
-            // TODO P3 rename datatable columns to make csv output look better
+            // TODO add formatting options
+            // TODO add emoji support
             txtContact.Enabled = true;
             txtContact.Text = "";
 
@@ -59,7 +48,6 @@ namespace SMSPrinter
         {
             DBAccess dba = new DBAccess("");
             long fromTime = Utilities.ToEpoch(dtFrom.Value), toTime = Utilities.ToEpoch(dtTo.Value);
-            // TODO P1 add OFD
             DataTable dt = dba.GetTable("select handle.id, " +
                 "message.date, message.text, message.is_from_me from message, " +
                 "handle where message.handle_id = handle.rowid and message.date between " + fromTime + " and " + toTime);
@@ -99,8 +87,7 @@ namespace SMSPrinter
         {
             bool result = true;
             string filepath = SaveFile(filetype);
-            // TODO P1 add print functionality with filetype selection
-            // TODO P3 add filetype selection
+            // TODO add other filetypes like PDF
             switch (filetype)
             {
                 case 0:
@@ -120,7 +107,7 @@ namespace SMSPrinter
                     Process.Start(filepath);
             }
             else
-                MessageBox.Show("Write error.", "Error", MessageBoxButtons.OK);
+                MessageBox.Show("Unable to write file.", "Error", MessageBoxButtons.OK);
         }
 
 
@@ -179,7 +166,7 @@ namespace SMSPrinter
 
         private void metroButton1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Changing the values in any of the fields will filter the data table's contents accordingly. Text fields are case insensitive. You can also sort the contents of the table by clicking on a column header. When the contents reflect the desired output, select an output file format and click print.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Changing the values in any of the fields will filter the data table's contents accordingly. Text fields are case insensitive. You can also sort the contents of the table by clicking on a column header. When the contents reflect the desired output, select an output file format and click print.\n Currently, the software will only read a file called \"sms.db\" in the same directory as the executable. A file selector could be added if desired.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void dt_ValueChanged(object sender, EventArgs e)
@@ -203,23 +190,27 @@ namespace SMSPrinter
 
         private void PrintFiltered_Click(object sender, EventArgs e)
         {
-            // TODO P3 Switch from label for output file format to index 0 of ddl and handle accordingly.
-            DataTable filteredTable = new DataTable();
-            foreach (DataGridViewColumn column in gvMessages.Columns)
-                filteredTable.Columns.Add(column.Name);
-            foreach (DataGridViewRow row in gvMessages.Rows)
+            if (cbFileFormat.SelectedIndex > 0 && gvMessages.DataSource != null)
             {
-                DataRow dataRow = filteredTable.NewRow();
-                for (int i = 0; i < filteredTable.Columns.Count; i++)
-                    dataRow[i] = row.Cells[i].Value;
-                filteredTable.Rows.Add(dataRow);
+                DataTable filteredTable = new DataTable();
+                foreach (DataGridViewColumn column in gvMessages.Columns)
+                    filteredTable.Columns.Add(column.Name);
+                foreach (DataGridViewRow row in gvMessages.Rows)
+                {
+                    DataRow dataRow = filteredTable.NewRow();
+                    for (int i = 0; i < filteredTable.Columns.Count; i++)
+                        dataRow[i] = row.Cells[i].Value;
+                    filteredTable.Rows.Add(dataRow);
+                }
+
+                messages = filteredTable;
+                if (messages != null)
+                    Print(messages, cbFileFormat.SelectedIndex - 1);
+                else
+                    MessageBox.Show("No messages in filtered view. Try different criteria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            // TODO P1 determine cause of write error messagebox on plaintext filtered output
-            messages = filteredTable;
-            if (messages != null)
-                Print(messages, cbFileFormat.SelectedIndex);
-            else
-                MessageBox.Show("No messages in filtered view. Try different criteria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else if (cbFileFormat.SelectedIndex == 0)
+                MessageBox.Show("Please use the dropdown box to select an output format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void cbColorPicker_SelectedIndexChanged(object sender, EventArgs e)
