@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using MetroFramework.Controls;
 using MetroFramework.Forms;
-
+// TODO use chat-message join table to build a better UI
 namespace SMSPrinter
 {
     public partial class FrmMain : MetroForm
