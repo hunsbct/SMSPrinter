@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 using MetroFramework.Controls;
 using MetroFramework.Forms;
@@ -10,23 +11,24 @@ namespace SMSPrinter
     public partial class FrmMain : MetroForm
     {
         private DataTable messages = null;
+        private DBAccess dba;
         private readonly string[] metroColors = { "Black", "White", "Silver", "Blue", "Green", "Lime", "Teal", "Orange", "Brown", "Pink", "Magenta", "Purple", "Red", "Yellow" };
 
 
         public FrmMain()
         {
             InitializeComponent();
-            WireColumns();
+            dba = new DBAccess();
+            WireMessageColumns();
             cbFileFormat.SelectedIndex = 0;
             dtTo.ValueChanged -= dt_ValueChanged;
             dtTo.Value = DateTime.Now.AddDays(1);
             dtTo.ValueChanged += dt_ValueChanged;
             cbColorPicker.DataSource = metroColors;
             cbColorPicker.SelectedIndex = 3;
-            BtnView_Click(null, null);
-            gvMessages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            PopulateChatList();
         }
-        
+
         private string FormatNumber(string number)
         {
             return number.Substring(0, 2) + " (" + number.Substring(2, 3) + ") " + number.Substring(5, 3) + "-" + number.Substring(8);
@@ -46,7 +48,6 @@ namespace SMSPrinter
 
         private DataTable GetTable()
         {
-            DBAccess dba = new DBAccess("");
             long fromTime = Utilities.ToEpoch(dtFrom.Value), toTime = Utilities.ToEpoch(dtTo.Value);
             DataTable dt = dba.GetTable("select handle.id, " +
                 "message.date, message.text, message.is_from_me from message, " +
@@ -144,7 +145,7 @@ namespace SMSPrinter
             }
         }
 
-        private void WireColumns()
+        private void WireMessageColumns()
         {
             gvMessages.AutoGenerateColumns = false;
             gvMessages.Columns["sender"].DataPropertyName = "id";
@@ -152,6 +153,15 @@ namespace SMSPrinter
             gvMessages.Columns["TimeStamp"].ValueType = typeof(DateTime);
             gvMessages.Columns["message"].DataPropertyName = "text";
             gvMessages.Columns["sentreceived"].DataPropertyName = "SentReceived";
+        }
+
+        private void WireConversationColumns()
+        {
+            // TODO fix missing data in gvmessages
+            // TODO make gvConversatons a metro style
+            gvConversations.AutoGenerateColumns = false;
+            gvConversations.Columns["lastmessage"].DataPropertyName = "timestamp";
+            gvConversations.Columns["chat_identifier"].DataPropertyName = "chat_identifier";
         }
 
         private void txtContact_TextChanged(object sender, EventArgs e)
@@ -271,7 +281,29 @@ namespace SMSPrinter
             btnPrintFiltered.Style = gvMessages.Style;
             cbColorPicker.Style = gvMessages.Style;
             cbFileFormat.Style = gvMessages.Style;
-            this.Refresh();
+            Refresh();
+        }
+
+        private void PopulateChatList()
+        {
+            DataTable dt = dba.GetConversations();
+            dt.Columns.Add("timestamp", typeof(string));
+            foreach (DataRow row in dt.Rows)
+                row["timestamp"] = Utilities.FromEpoch(long.Parse(row["max(date)"].ToString()));
+            WireConversationColumns();
+            gvConversations.DataSource = dt;
+            gvConversations.AutoResizeColumns();
+        }
+
+        private void gvConversations_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (gvConversations.SelectedCells.Count > 0)
+            {
+                int selectedrowindex = gvConversations.SelectedCells[0].RowIndex;
+                DataGridViewRow selectedRow = gvConversations.Rows[selectedrowindex];
+                string chat_identifier = selectedRow.Cells["chat_identifier"].Value.ToString();
+                gvMessages.DataSource = dba.GetConversation(chat_identifier);
+            }
         }
     }
 }
